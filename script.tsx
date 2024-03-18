@@ -15,10 +15,12 @@ async function getDrivers() {
         
         const drivers = jsonContent.map((driver, i) => {
             return `<div class="driver-card" style="background:${driver['team-color']}" key=${i}>
-            <img src=${driver.image} alt="user profile image" />
+            <div>
+            <img src=${driver.image} alt="${driver.name}" class="driver-img" />
+            <img src=${driver['country-flag']} alt="flag" class="flag" />
+            <img src=${driver['number-logo']} alt="driver number" class="number" />
+            </div>
             <div class="details">
-            <img src=${driver['country-flag']} />
-            <img src=${driver['number-logo']} />
              <p>${driver.name}</p>
              <p>${driver.team}</p>
              <p>Current rank: ${driver.rank}</p>

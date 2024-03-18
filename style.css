@@ -1,0 +1,50 @@
+body {
+    background-color: #333333;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.driver-card {
+    width: 250px;
+    height: 300px;
+    position: relative;
+}
+
+.driver-img {
+    margin: 0 auto;
+    width: 200px;
+}
+
+.number {
+    position: absolute;
+    top: 10px;
+    width: 30px;
+    right: 5px;
+}
+
+.flag {
+    position: absolute;
+    width: 30px;
+    top: 10px;
+    left: 10px;
+}
+
+.details {
+    padding: 10px 20px;
+}
+
+.details p:first-child {
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.details p {
+    margin: 0;
+    color: #ffffff;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+}
