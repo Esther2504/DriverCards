@@ -10,10 +10,8 @@ async function getDrivers() {
     try {
         const response = await fetch('https://f1-api.vercel.app/api/drivers');
         jsonContent = await response.json();
-        console.log(jsonContent);
 
-        
-        const drivers = jsonContent.map((driver) => {
+        const drivers = jsonContent.sort().map((driver) => {
             return `<div class="driver-card" style="background:${driver['team-color']}">
             <div class="img-container">
             <img src=${driver.image} alt="${driver.name}" class="driver-img" />
@@ -28,7 +26,8 @@ async function getDrivers() {
            </div>
       </div>`;
         }).join('')
-container[0].innerHTML = drivers
+
+        container[0].innerHTML = drivers
 
         return jsonContent;
     } catch (error) {
