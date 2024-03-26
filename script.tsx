@@ -10,19 +10,22 @@ async function getDrivers() {
     jsonContent = await response.json();
 
     const drivers = jsonContent.sort().map((driver) => {
-      return `<div class="driver-card" style="background:${driver['team-color']}" onclick="moreInfo('${driver['last-name']}')">
-            <div class="img-container">
-            <img src=${driver.image} alt="${driver.name}" class="driver-img" />
-            <img src=${driver['country-flag']} alt="flag" class="flag" />
-            <img src=${driver['number-logo']} alt="driver number" class="number" />
-            </div>
-            <div class="details">
-             <p>${driver.name}</p>
-             <p><span>Team</span> <span>${driver.team}</span></p>
-             <p><span>Current rank</span> <span>${driver.rank}</span></p>
-             <p><span>Points</span> <span>${driver.points}</span></p>
-           </div>
-      </div>`;
+      // if (driver.team == 'Ferrari') {
+        return `<div class="driver-card" style="background:${driver['team-color']}" onclick="moreInfo('${driver['last-name']}')">
+        <div class="img-container">
+        <img src=${driver.image} alt="${driver.name}" class="driver-img" />
+        <img src=${driver['country-flag']} alt="flag" class="flag" />
+        <img src=${driver['number-logo']} alt="driver number" class="number" />
+        </div>
+        <div class="details">
+         <p>${driver.name}</p>
+         <p><span>Team</span> <span>${driver.team}</span></p>
+         <p><span>Current rank</span> <span>${driver.rank}</span></p>
+         <p><span>Points</span> <span>${driver.points}</span></p>
+       </div>
+  </div>`;
+      // }
+
     }).join('')
 
     container[0].innerHTML = drivers
@@ -35,9 +38,8 @@ async function getDrivers() {
 
 
 
-
 function moreInfo(driver) {
-  console.log(driver)
+  console.log(driver);
   fetch(`http://ergast.com/api/f1/drivers/${driver}`)
     .then(
       function (response) {
@@ -47,6 +49,7 @@ function moreInfo(driver) {
           return;
         }
         response.text().then(function (data) {
+          console.log(data)
           const xmlString = data
           const parser = new DOMParser();
           const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
