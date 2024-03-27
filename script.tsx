@@ -9,9 +9,11 @@ async function getDrivers() {
     const response = await fetch('https://f1-api.vercel.app/api/drivers');
     jsonContent = await response.json();
 
-    const drivers = jsonContent.sort().map((driver) => {
+    const drivers = jsonContent.sort().map((driver, index) => {
+      console.log(driver)
       // if (driver.team == 'Ferrari') {
-        return `<div class="driver-card" style="background:${driver['team-color']}" onclick="moreInfo('${driver['last-name']}')">
+        return `<div class="driver-card" id="${driver['last-name']}" style="background:${driver['team-color']}" onclick="moreInfo('${index}')">
+        <div class="driver-card-inner">
         <div class="img-container">
         <img src=${driver.image} alt="${driver.name}" class="driver-img" />
         <img src=${driver['country-flag']} alt="flag" class="flag" />
@@ -22,6 +24,7 @@ async function getDrivers() {
          <p><span>Team</span> <span>${driver.team}</span></p>
          <p><span>Current rank</span> <span>${driver.rank}</span></p>
          <p><span>Points</span> <span>${driver.points}</span></p>
+         </div>
        </div>
   </div>`;
       // }
@@ -30,7 +33,6 @@ async function getDrivers() {
 
     container[0].innerHTML = drivers
 
-
   } catch (error) {
     console.error('Error fetching data:');
   }
@@ -38,9 +40,10 @@ async function getDrivers() {
 
 
 
-function moreInfo(driver) {
-  console.log(driver);
-  fetch(`http://ergast.com/api/f1/drivers/${driver}`)
+function moreInfo(index) {
+  const test = jsonContent[index]
+  console.log(test)
+  fetch(`http://ergast.com/api/f1/drivers/${test['last-name']}`)
     .then(
       function (response) {
         if (response.status !== 200) {
@@ -54,7 +57,7 @@ function moreInfo(driver) {
           const parser = new DOMParser();
           const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
           const familyNameElement = xmlDoc.getElementsByTagName('FamilyName')[0];
-          getResults(driver);
+          getResults(test['last-name']);
 
           const familyName = familyNameElement.textContent;
           console.log(data);

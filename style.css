@@ -102,3 +102,19 @@ body {
     margin: 0;
     color: #ffffff;
 }
+
+.modal-background {
+    width: 100vw;
+    height: 100vh;
+    background-color: #0000007a;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 3;
+}
+
+.modal {
+    position: fixed;
+    width: 450px;
+    height: 500px;
+}
