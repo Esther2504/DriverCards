@@ -62,6 +62,24 @@ function moreInfo(index) {
           const familyName = familyNameElement.textContent;
           console.log(data);
           console.log(familyName)
+
+          document.getElementById('modal-container').style.display = 'block';
+          document.getElementById('modal-container').innerHTML = `
+          <div class="driver-card modal" id="${test['last-name']}" style="background:${test['team-color']}">
+                <div class="img-container">
+                <img src=${test.image} alt="${test.name}" class="driver-img" />
+                <img src=${test['country-flag']} alt="flag" class="flag" />
+                <img src=${test['number-logo']} alt="driver number" class="number" />
+                <div class="details">
+                 <p>${test.name}</p>
+                 <p><span>Team</span> <span>${test.team}</span></p>
+                 <p><span>Current rank</span> <span>${test.rank}</span></p>
+                 <p><span>Points</span> <span>${test.points}</span></p>
+                 </div>
+                </div>
+                
+          </div>
+          `
         });
       }
     )
