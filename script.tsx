@@ -62,20 +62,38 @@ let drivername;
         }
         response.text().then(function (data) {
           console.log(data)
-          // const xmlString = data
-          // const parser = new DOMParser();
-          // const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
-          // const nationality = xmlDoc.getElementsByTagName('Nationality')[0].textContent;
           console.log(JSON.parse(data).MRData.DriverTable.Drivers[0]);
 
           const driverData = JSON.parse(data).MRData.DriverTable.Drivers[0]
-          getResults(drivername, driverData, test);
+          // getResults(drivername, driverData, test);
 
-          // const familyName = familyNameElement.textContent;
-
-
+          return fetch(`http://ergast.com/api/f1/2024/drivers/${drivername}/results.json`)
          
-        });
+        })
+        .then(function (response) {
+          return response.json();
+      })
+        .then(function (data) {
+          console.log(data)
+          let results = data.MRData.RaceTable.Races
+          console.log(results)
+          return fetch(`https://ergast.com/api/f1/drivers/${drivername}/constructors.json`)
+      })
+      .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {
+       let constructors = data.MRData.ConstructorTable.Constructors
+       console.log(constructors)
+       return fetch(`https://ergast.com/api/f1/drivers/${drivername}/results/1.json`)
+    })
+    .then(function (response) {
+      return response.json();
+  })
+  .then(function (data) {
+     let wins = data.MRData.total
+     console.log(wins)
+  })
       }
     )
     .catch(function (err) {
@@ -95,8 +113,7 @@ function getResults(driver, driverData, test) {
           return;
         }
         response.text().then(function (data) {
-          
-
+        
           console.log(JSON.parse(data));
           const results2024 = JSON.parse(data).MRData.RaceTable.Races
 
@@ -137,7 +154,6 @@ function getResults(driver, driverData, test) {
                 </div>
           </div>
           `
-
         });
       }
     )
