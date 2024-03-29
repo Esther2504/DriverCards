@@ -56,22 +56,27 @@ function moreInfo(index) {
           const xmlString = data
           const parser = new DOMParser();
           const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
-          const familyNameElement = xmlDoc.getElementsByTagName('FamilyName')[0];
+          const nationality = xmlDoc.getElementsByTagName('Nationality')[0].textContent;
           getResults(test['last-name']);
 
-          const familyName = familyNameElement.textContent;
+          // const familyName = familyNameElement.textContent;
           console.log(data);
-          console.log(familyName)
+          console.log(nationality)
 
           document.getElementById('modal-container').style.display = 'block';
           document.getElementById('modal-container').innerHTML = `
           <div class="driver-card modal" id="${test['last-name']}" style="background:${test['team-color']}">
-                <div class="img-container">
+          <div class="top-container">
+          <div class="img-container">
                 <img src=${test.image} alt="${test.name}" class="driver-img" />
                 <img src=${test['country-flag']} alt="flag" class="flag" />
                 <img src=${test['number-logo']} alt="driver number" class="number" />
+                </div>
                 <div class="details">
                  <p>${test.name}</p>
+                 <p><span>Birthdate</span>${xmlDoc.getElementsByTagName('DateOfBirth')[0].textContent}</p>
+                 <p><span>Nationality</span>${xmlDoc.getElementsByTagName('Nationality')[0].textContent}</p>
+                 <p><span>Number</span>${xmlDoc.getElementsByTagName('PermanentNumber')[0].textContent}</p>
                  <p><span>Team</span> <span>${test.team}</span></p>
                  <p><span>Current rank</span> <span>${test.rank}</span></p>
                  <p><span>Points</span> <span>${test.points}</span></p>
