@@ -21,6 +21,7 @@ body {
     font-family: 'Titillium Web', sans-serif;
     padding: 20px;
     box-sizing: border-box;
+    color: #ffffff;
 }
 
 .card-container {
@@ -89,6 +90,7 @@ body {
 .details p {
     display: flex;
     justify-content: space-between;
+    margin: 0;
 }
 
 .details p:first-child {
@@ -99,10 +101,6 @@ body {
     display: block;
 }
 
-.details p {
-    margin: 0;
-    color: #ffffff;
-}
 
 .modal-container {
     width: 100vw;
@@ -152,4 +150,28 @@ body {
 
 .top-container > .details p span:first-child {
     font-weight: 600;
+}
+
+.bottom-container {
+    padding: 20px;
+}
+
+.bottom-container  {
+    margin: 0;
+    display: flex;
+}
+
+.results {
+    width: 40%;
+}
+
+.results > p:first-child {
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.results p {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
 }

@@ -43,7 +43,16 @@ async function getDrivers() {
 function moreInfo(index) {
   const test = jsonContent[index]
   console.log(test)
-  fetch(`http://ergast.com/api/f1/drivers/${test['last-name']}`)
+let drivername;
+  if (test['last-name'] == 'Verstappen') {
+    drivername = 'max_verstappen'
+  } else if (test['last-name'] == 'Magnussen') {
+    drivername = 'kevin_magnussen'
+  } else {
+    drivername = test['last-name']
+  }
+
+  fetch(`http://ergast.com/api/f1/drivers/${drivername}.json`)
     .then(
       function (response) {
         if (response.status !== 200) {
@@ -53,15 +62,48 @@ function moreInfo(index) {
         }
         response.text().then(function (data) {
           console.log(data)
-          const xmlString = data
-          const parser = new DOMParser();
-          const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
-          const nationality = xmlDoc.getElementsByTagName('Nationality')[0].textContent;
-          getResults(test['last-name']);
+          // const xmlString = data
+          // const parser = new DOMParser();
+          // const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
+          // const nationality = xmlDoc.getElementsByTagName('Nationality')[0].textContent;
+          console.log(JSON.parse(data).MRData.DriverTable.Drivers[0]);
+
+          const driverData = JSON.parse(data).MRData.DriverTable.Drivers[0]
+          getResults(drivername, driverData, test);
 
           // const familyName = familyNameElement.textContent;
-          console.log(data);
-          console.log(nationality)
+
+
+         
+        });
+      }
+    )
+    .catch(function (err) {
+      console.log('Fetch Error', err);
+    });
+}
+
+function getResults(driver, driverData, test) {
+  console.log(driver)
+
+  fetch(`http://ergast.com/api/f1/2024/drivers/${driver}/results.json`)
+    .then(
+      function (response) {
+        if (response.status !== 200) {
+          console.log(response.status);
+
+          return;
+        }
+        response.text().then(function (data) {
+          
+
+          console.log(JSON.parse(data));
+          const results2024 = JSON.parse(data).MRData.RaceTable.Races
+
+          console.log(results2024)
+          console.log(results2024.map((race) => {
+            return race.round
+          }))
 
           document.getElementById('modal-container').style.display = 'block';
           document.getElementById('modal-container').innerHTML = `
@@ -74,17 +116,28 @@ function moreInfo(index) {
                 </div>
                 <div class="details">
                  <p>${test.name}</p>
-                 <p><span>Birthdate</span>${xmlDoc.getElementsByTagName('DateOfBirth')[0].textContent}</p>
-                 <p><span>Nationality</span>${xmlDoc.getElementsByTagName('Nationality')[0].textContent}</p>
-                 <p><span>Number</span>${xmlDoc.getElementsByTagName('PermanentNumber')[0].textContent}</p>
+                 <p><span>Birthdate</span>${driverData.dateOfBirth}</p>
+                 <p><span>Nationality</span>${driverData.nationality}</p>
+                 <p><span>Number</span>${driverData.permanentNumber}</p>
                  <p><span>Team</span> <span>${test.team}</span></p>
                  <p><span>Current rank</span> <span>${test.rank}</span></p>
                  <p><span>Points</span> <span>${test.points}</span></p>
                  </div>
                 </div>
-                
+                <div class="bottom-container">
+                <div class="results">
+                <p>2024 Results</p>
+                ${results2024.map((race) => {
+                  return `<p><span>${race.raceName}</span><span>${race.Results[0].positionText}</span></p>`
+                }).join('')}
+                </div>
+                <p>Constructors</p>
+                <p>Amount of wins</p>
+                 <p>Race finishes</p>
+                </div>
           </div>
           `
+
         });
       }
     )
@@ -93,29 +146,6 @@ function moreInfo(index) {
     });
 }
 
-function getResults(driver) {
-  console.log(driver)
-  fetch(`http://ergast.com/api/f1/2024/drivers/${driver}/results?limit=24`)
-    .then(
-      function (response) {
-        if (response.status !== 200) {
-          console.log(response.status);
-
-          return;
-        }
-        response.text().then(function (data) {
-          const xmlString = data
-          const parser = new DOMParser();
-          const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
-          const familyNameElement = xmlDoc.getElementsByTagName('FamilyName')[0];
-
-          const familyName = familyNameElement.textContent;
-          console.log(data);
-          console.log(familyName)
-        });
-      }
-    )
-    .catch(function (err) {
-      console.log('Fetch Error', err);
-    });
+function closeModal() {
+  document.getElementById('modal-container').style.display = 'none';
 }
