@@ -101,6 +101,16 @@ body {
     display: block;
 }
 
+.constructors p {
+    margin: 0;
+}
+
+.constructors p:first-child {
+    font-weight: 600;
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+    display: block;
+}
 
 .modal-container {
     width: 100vw;
@@ -156,11 +166,9 @@ body {
 .bottom-container {
     padding: 20px;
     height: auto;
-}
-
-.bottom-container  {
     margin: 0;
     display: flex;
+    gap: 50px;
 }
 
 .results {
@@ -176,4 +184,19 @@ body {
     display: flex;
     justify-content: space-between;
     margin: 0;
+}
+
+.career-details {
+    width: 110%;
+    margin-top: 10px;
+}
+
+.career-details p {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+}
+
+.career-details p span:first-child {
+    font-weight: 600;
 }
