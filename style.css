@@ -24,11 +24,19 @@ body {
     color: #ffffff;
 }
 
+h1 {
+    text-align: center;
+    margin-bottom: 50px;
+    font-size: 2.5rem;
+}
+
 .card-container {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
     width: 790px;
+    max-width: 100%;
+    justify-content: center;
     margin: 0 auto;
 }
 

@@ -11,7 +11,6 @@ async function getDrivers() {
 
     const drivers = jsonContent.sort().map((driver, index) => {
       console.log(driver)
-      // if (driver.team == 'Ferrari') {
       return `<div class="driver-card" id="${driver['last-name']}" style="background:${driver['team-color']}" onclick="moreInfo('${index}')">
         <div class="driver-card-inner">
         <div class="img-container">
@@ -27,8 +26,6 @@ async function getDrivers() {
          </div>
        </div>
   </div>`;
-      // }
-
     }).join('')
 
     container[0].innerHTML = drivers
