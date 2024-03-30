@@ -45,6 +45,10 @@ let wins;
 let constructors;
 
 function moreInfo(index) {
+
+  document.getElementsByClassName('loading')[0].style.display = 'block'
+  document.getElementsByClassName('modal-container')[0].innerHTML = ''
+  document.getElementsByClassName('modal-container')[0].style.display = 'block'
   const driver = jsonContent[index]
   console.log(driver)
   let drivername;
@@ -164,6 +168,7 @@ function getResults(drivername, driverData, driver, results, wins, constructors,
           console.log(allRacesFinished)
           console.log(allTotalResults)
           // console.log(averageStart)
+          document.getElementsByClassName('loading')[0].style.display = 'none'
 
           document.getElementById('modal-container').style.display = 'block';
           document.getElementById('modal-container').innerHTML = `
