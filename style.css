@@ -223,3 +223,37 @@ body {
         transform: rotate(360deg);
       }
 }
+
+@media screen and (max-width: 1450px) {
+    .modal {
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+@media screen and (max-width: 820px) {
+    .modal > .top-container {
+        flex-direction: column;
+        height: auto;
+        align-items: center;
+    }
+    .bottom-container {
+        grid-template-columns: 1fr;
+        align-items: center;
+        justify-content: center;
+    }
+    .results {
+        margin: 0 auto 10px;
+
+    }
+
+    .right-container {
+        margin: 0 auto;
+        width: 80%;
+    }
+
+    .modal {
+        min-width: 90%;
+    }
+}

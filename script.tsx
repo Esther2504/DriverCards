@@ -196,7 +196,7 @@ function getResults(drivername, driverData, driver, results, wins, constructors,
             return `<p><span>${race.raceName}</span><span>${race.Results[0].positionText}</span></p>`
           }).join('')}
                 </div>
-                <div>
+                <div class='right-container'>
                 <div class="constructors">
                 <p>Teams</p>
                 ${constructors.map((constructor) => {
