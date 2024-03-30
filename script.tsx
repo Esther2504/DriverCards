@@ -110,7 +110,7 @@ function getResults(drivername, driverData, driver, results, wins, constructors,
           let allTotalStarts = 0;
           let allTotalResults = 0;
 
-          for (i = 0; i < results2024.length; i++) {
+          for (let i = 0; i < results2024.length; i++) {
             if (!isNaN(results2024[i].Results[0].positionText)) {
               totalResults = totalResults + Number(results2024[i].Results[0].positionText)
               racesFinished++
@@ -119,7 +119,7 @@ function getResults(drivername, driverData, driver, results, wins, constructors,
           }
 
 
-          for (i = 0; i < allResults.length; i++) {
+          for (let i = 0; i < allResults.length; i++) {
             if (!isNaN(allResults[i].Results[0].positionText)) {
               allTotalResults = allTotalResults + Number(allResults[i].Results[0].positionText)
               allRacesFinished++
