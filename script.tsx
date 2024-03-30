@@ -1,7 +1,5 @@
 let jsonContent;
-
 getDrivers();
-
 let container = document.getElementsByClassName('card-container')
 
 async function getDrivers() {
@@ -10,7 +8,6 @@ async function getDrivers() {
     jsonContent = await response.json();
 
     const drivers = jsonContent.sort().map((driver, index) => {
-      console.log(driver)
       return `<div class="driver-card" id="${driver['last-name']}" style="background:${driver['team-color']}" onclick="moreInfo('${index}')">
         <div class="driver-card-inner">
         <div class="img-container">
@@ -42,13 +39,12 @@ let wins;
 let constructors;
 
 function moreInfo(index) {
-
   document.getElementsByClassName('loading')[0].style.display = 'block'
   document.getElementsByClassName('modal-container')[0].innerHTML = ''
   document.getElementsByClassName('modal-container')[0].style.display = 'block'
   const driver = jsonContent[index]
-  console.log(driver)
   let drivername;
+
   if (driver['last-name'] == 'Verstappen') {
     drivername = 'max_verstappen'
   } else if (driver['last-name'] == 'Magnussen') {
@@ -62,34 +58,17 @@ function moreInfo(index) {
       function (response) {
         if (response.status !== 200) {
           console.log(response.status);
-
           return;
         }
         response.text().then(function (data) {
-          console.log(data)
-          console.log(JSON.parse(data).MRData.DriverTable.Drivers[0]);
-
           driverData = JSON.parse(data).MRData.DriverTable.Drivers[0]
-          // getResults(drivername, driverData, driver);
-
-          return fetch(`http://ergast.com/api/f1/2024/drivers/${drivername}/results.json`)
-
+          return fetch(`https://ergast.com/api/f1/drivers/${drivername}/constructors.json`)
         })
           .then(function (response) {
             return response.json();
           })
           .then(function (data) {
-            console.log(data)
-            results = data.MRData.RaceTable.Races
-            console.log(results)
-            return fetch(`https://ergast.com/api/f1/drivers/${drivername}/constructors.json`)
-          })
-          .then(function (response) {
-            return response.json();
-          })
-          .then(function (data) {
             constructors = data.MRData.ConstructorTable.Constructors
-            console.log(constructors)
             return fetch(`https://ergast.com/api/f1/drivers/${drivername}/results/1.json`)
           })
           .then(function (response) {
@@ -97,14 +76,12 @@ function moreInfo(index) {
           })
           .then(function (data) {
             wins = data.MRData.total
-            console.log(wins)
             return fetch(`https://ergast.com/api/f1/drivers/${drivername}/results.json?limit=400`)
           })
           .then(function (response) {
             return response.json();
           })
           .then(function (data) {
-            console.log(data)
             let allResults = data.MRData.RaceTable.Races
             getResults(drivername, driverData, driver, results, wins, constructors, allResults)
           })
@@ -116,19 +93,14 @@ function moreInfo(index) {
 }
 
 function getResults(drivername, driverData, driver, results, wins, constructors, allResults) {
-  console.log(drivername)
-
   fetch(`http://ergast.com/api/f1/2024/drivers/${drivername}/results.json`)
     .then(
       function (response) {
         if (response.status !== 200) {
           console.log(response.status);
-
           return;
         }
         response.text().then(function (data) {
-
-          console.log(JSON.parse(data));
           const results2024 = JSON.parse(data).MRData.RaceTable.Races
 
           let racesFinished = 0;
@@ -146,13 +118,11 @@ function getResults(drivername, driverData, driver, results, wins, constructors,
             totalStarts = totalStarts + Number(results2024[i].Results[0].grid)
           }
 
-          console.log(allResults)
 
           for (i = 0; i < allResults.length; i++) {
             if (!isNaN(allResults[i].Results[0].positionText)) {
               allTotalResults = allTotalResults + Number(allResults[i].Results[0].positionText)
               allRacesFinished++
-              console.log(Number(allResults[i].Results[0].positionText))
             }
             allTotalStarts = allTotalStarts + Number(allResults[i].Results[0].grid)
           }
@@ -161,12 +131,7 @@ function getResults(drivername, driverData, driver, results, wins, constructors,
           let averageStart = totalStarts / results2024.length
           let allAverageFinish = allTotalResults / allRacesFinished
           let allAverageStart = allTotalStarts / allResults.length
-
-          console.log(allRacesFinished)
-          console.log(allTotalResults)
-          // console.log(averageStart)
           document.getElementsByClassName('loading')[0].style.display = 'none'
-
           document.getElementById('modal-container').style.display = 'block';
           document.getElementById('modal-container').innerHTML = `
           <div class="driver-card modal" id="${driver['last-name']}" style="background:${driver['team-color']}">
