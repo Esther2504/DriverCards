@@ -61,7 +61,7 @@ function moreInfo(index) {
     else {
         drivername = driver['last-name'];
     }
-    fetch(`http://ergast.com/api/f1/drivers/${drivername}.json`)
+    fetch(`https://ergast.com/api/f1/drivers/${drivername}.json`)
         .then(function (response) {
         if (response.status !== 200) {
             console.log(response.status);
@@ -98,7 +98,7 @@ function moreInfo(index) {
     });
 }
 function getResults(drivername, driverData, driver, wins, constructors, allResults) {
-    fetch(`http://ergast.com/api/f1/2024/drivers/${drivername}/results.json`)
+    fetch(`https://ergast.com/api/f1/2024/drivers/${drivername}/results.json`)
         .then(function (response) {
         if (response.status !== 200) {
             console.log(response.status);

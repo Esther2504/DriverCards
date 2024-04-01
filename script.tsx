@@ -76,7 +76,7 @@ function moreInfo(index: number) {
     drivername = driver['last-name']
   }
 
-  fetch(`http://ergast.com/api/f1/drivers/${drivername}.json`)
+  fetch(`https://ergast.com/api/f1/drivers/${drivername}.json`)
     .then(
       function (response) {
         if (response.status !== 200) {
@@ -116,7 +116,7 @@ function moreInfo(index: number) {
 }
 
 function getResults(drivername: String, driverData: any, driver: any, wins: Object, constructors: any, allResults: any) {
-  fetch(`http://ergast.com/api/f1/2024/drivers/${drivername}/results.json`)
+  fetch(`https://ergast.com/api/f1/2024/drivers/${drivername}/results.json`)
     .then(
       function (response) {
         if (response.status !== 200) {
