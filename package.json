@@ -1,5 +1,24 @@
 {
-  "dependencies": {
+  "name": "drivercards",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {
     "typescript": "^5.4.3"
-  }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esther2504/DriverCards.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Esther2504/DriverCards/issues"
+  },
+  "homepage": "https://github.com/Esther2504/DriverCards#readme",
+  "description": ""
 }

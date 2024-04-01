@@ -1,8 +1,11 @@
 let jsonContent;
-getDrivers();
-let container = document.getElementsByClassName('card-container')
+let container: HTMLCollectionOf<Element> = document.getElementsByClassName('card-container');
+let modalcontainer: HTMLCollectionOf<Element>  = document.getElementsByClassName('modal-container');
+let loading: HTMLCollectionOf<Element>  = document.getElementsByClassName('loading');
 
-async function getDrivers() {
+getDrivers();
+
+async function getDrivers(): Promise<void> {
   try {
     const response = await fetch('https://f1-api.vercel.app/api/drivers');
     jsonContent = await response.json();
@@ -39,9 +42,9 @@ let wins;
 let constructors;
 
 function moreInfo(index) {
-  document.getElementsByClassName('loading')[0].style.display = 'block'
-  document.getElementsByClassName('modal-container')[0].innerHTML = ''
-  document.getElementsByClassName('modal-container')[0].style.display = 'block'
+  loading[0].style.display = 'block'
+  modalcontainer[0].innerHTML = ''
+  modalcontainer[0].style.display = 'block'
   const driver = jsonContent[index]
   let drivername;
 
@@ -131,9 +134,9 @@ function getResults(drivername, driverData, driver, results, wins, constructors,
           let averageStart = totalStarts / results2024.length
           let allAverageFinish = allTotalResults / allRacesFinished
           let allAverageStart = allTotalStarts / allResults.length
-          document.getElementsByClassName('loading')[0].style.display = 'none'
-          document.getElementById('modal-container').style.display = 'block';
-          document.getElementById('modal-container').innerHTML = `
+          loading[0].style.display = 'none'
+          modalcontainer.style.display = 'block';
+          modalcontainer.innerHTML = `
           <div class="driver-card modal" id="${driver['last-name']}" style="background:${driver['team-color']}">
           <div class="top-container">
           <div class="img-container">
@@ -185,5 +188,5 @@ function getResults(drivername, driverData, driver, results, wins, constructors,
 }
 
 function closeModal() {
-  document.getElementById('modal-container').style.display = 'none';
+  modalcontainer.style.display = 'none';
 }
