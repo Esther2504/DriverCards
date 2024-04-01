@@ -209,4 +209,5 @@ function getResults(drivername: String, driverData: any, driver: any, wins: Obje
 
 function closeModal() {
   modalcontainer!.style.display = 'none';
+  loading!.style.display = 'none';
 }

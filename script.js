@@ -183,4 +183,5 @@ function getResults(drivername, driverData, driver, wins, constructors, allResul
 }
 function closeModal() {
     modalcontainer.style.display = 'none';
+    loading.style.display = 'none';
 }
