@@ -1,7 +1,28 @@
-let jsonContent;
-let container: HTMLCollectionOf<Element> = document.getElementsByClassName('card-container');
-let modalcontainer: HTMLCollectionOf<Element>  = document.getElementsByClassName('modal-container');
-let loading: HTMLCollectionOf<Element>  = document.getElementsByClassName('loading');
+interface Driver {
+  id: number;
+  name: string;
+  team: string;
+  rank: string;
+  points: string;
+  image: string;
+  "first-name": string;
+  "last-name": string;
+  "country-flag": string;
+  "number-logo": string;
+  "team-color": string;
+}
+
+interface Results24 {
+  raceName: string;
+  positionText: string;
+  grid: number;
+  Results: any;
+}
+
+let jsonContent: Driver[] = [];
+let container = document.querySelector<HTMLElement>('.card-container');
+let modalcontainer = document.querySelector<HTMLElement>('.modal-container');
+let loading = document.querySelector<HTMLElement>('.loading');
 
 getDrivers();
 
@@ -28,25 +49,24 @@ async function getDrivers(): Promise<void> {
   </div>`;
     }).join('')
 
-    container[0].innerHTML = drivers
+    container!.innerHTML = drivers
 
   } catch (error) {
     console.error('Error fetching data:');
   }
 }
 
+let driverData: Object;
+let results: Object;
+let wins: Object;
+let constructors: Object;
 
-let driverData;
-let results;
-let wins;
-let constructors;
-
-function moreInfo(index) {
-  loading[0].style.display = 'block'
-  modalcontainer[0].innerHTML = ''
-  modalcontainer[0].style.display = 'block'
+function moreInfo(index: number) {
+  loading!.style.display = 'block'
+  modalcontainer!.innerHTML = ''
+  modalcontainer!.style.display = 'block'
   const driver = jsonContent[index]
-  let drivername;
+  let drivername: String;
 
   if (driver['last-name'] == 'Verstappen') {
     drivername = 'max_verstappen'
@@ -86,7 +106,7 @@ function moreInfo(index) {
           })
           .then(function (data) {
             let allResults = data.MRData.RaceTable.Races
-            getResults(drivername, driverData, driver, results, wins, constructors, allResults)
+            getResults(drivername, driverData, driver, wins, constructors, allResults)
           })
       }
     )
@@ -95,7 +115,7 @@ function moreInfo(index) {
     });
 }
 
-function getResults(drivername, driverData, driver, results, wins, constructors, allResults) {
+function getResults(drivername: String, driverData: any, driver: any, wins: Object, constructors: any, allResults: any) {
   fetch(`http://ergast.com/api/f1/2024/drivers/${drivername}/results.json`)
     .then(
       function (response) {
@@ -104,7 +124,7 @@ function getResults(drivername, driverData, driver, results, wins, constructors,
           return;
         }
         response.text().then(function (data) {
-          const results2024 = JSON.parse(data).MRData.RaceTable.Races
+          const results2024: Results24[] = JSON.parse(data).MRData.RaceTable.Races
 
           let racesFinished = 0;
           let totalResults = 0;
@@ -134,9 +154,9 @@ function getResults(drivername, driverData, driver, results, wins, constructors,
           let averageStart = totalStarts / results2024.length
           let allAverageFinish = allTotalResults / allRacesFinished
           let allAverageStart = allTotalStarts / allResults.length
-          loading[0].style.display = 'none'
-          modalcontainer.style.display = 'block';
-          modalcontainer.innerHTML = `
+          loading!.style.display = 'none'
+          modalcontainer!.style.display = 'block';
+          modalcontainer!.innerHTML = `
           <div class="driver-card modal" id="${driver['last-name']}" style="background:${driver['team-color']}">
           <div class="top-container">
           <div class="img-container">
@@ -164,7 +184,7 @@ function getResults(drivername, driverData, driver, results, wins, constructors,
                 <div class='right-container'>
                 <div class="constructors">
                 <p>Teams</p>
-                ${constructors.map((constructor) => {
+                ${constructors.map((constructor: any) => {
             return `<p>${constructor.name}</p>`
           }).join('')}
                 </div>
@@ -188,5 +208,5 @@ function getResults(drivername, driverData, driver, results, wins, constructors,
 }
 
 function closeModal() {
-  modalcontainer.style.display = 'none';
+  modalcontainer!.style.display = 'none';
 }

@@ -8,10 +8,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-let jsonContent;
-let container = document.getElementsByClassName('card-container');
-let modalcontainer = document.getElementsByClassName('modal-container');
-let loading = document.getElementsByClassName('loading');
+let jsonContent = [];
+let container = document.querySelector('.card-container');
+let modalcontainer = document.querySelector('.modal-container');
+let loading = document.querySelector('.loading');
 getDrivers();
 function getDrivers() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -35,7 +35,7 @@ function getDrivers() {
        </div>
   </div>`;
             }).join('');
-            container[0].innerHTML = drivers;
+            container.innerHTML = drivers;
         }
         catch (error) {
             console.error('Error fetching data:');
@@ -47,9 +47,9 @@ let results;
 let wins;
 let constructors;
 function moreInfo(index) {
-    loading[0].style.display = 'block';
-    modalcontainer[0].innerHTML = '';
-    modalcontainer[0].style.display = 'block';
+    loading.style.display = 'block';
+    modalcontainer.innerHTML = '';
+    modalcontainer.style.display = 'block';
     const driver = jsonContent[index];
     let drivername;
     if (driver['last-name'] == 'Verstappen') {
@@ -90,14 +90,14 @@ function moreInfo(index) {
         })
             .then(function (data) {
             let allResults = data.MRData.RaceTable.Races;
-            getResults(drivername, driverData, driver, results, wins, constructors, allResults);
+            getResults(drivername, driverData, driver, wins, constructors, allResults);
         });
     })
         .catch(function (err) {
         console.log('Fetch Error', err);
     });
 }
-function getResults(drivername, driverData, driver, results, wins, constructors, allResults) {
+function getResults(drivername, driverData, driver, wins, constructors, allResults) {
     fetch(`http://ergast.com/api/f1/2024/drivers/${drivername}/results.json`)
         .then(function (response) {
         if (response.status !== 200) {
@@ -130,7 +130,7 @@ function getResults(drivername, driverData, driver, results, wins, constructors,
             let averageStart = totalStarts / results2024.length;
             let allAverageFinish = allTotalResults / allRacesFinished;
             let allAverageStart = allTotalStarts / allResults.length;
-            loading[0].style.display = 'none';
+            loading.style.display = 'none';
             modalcontainer.style.display = 'block';
             modalcontainer.innerHTML = `
           <div class="driver-card modal" id="${driver['last-name']}" style="background:${driver['team-color']}">
