@@ -10,6 +10,7 @@ interface Driver {
   "country-flag": string;
   "number-logo": string;
   "team-color": string;
+  "driverId": string;
 }
 
 interface Results24 {
@@ -28,21 +29,143 @@ getDrivers();
 
 async function getDrivers(): Promise<void> {
   try {
-    const response = await fetch('https://f1-api.vercel.app/api/drivers');
+    // const response = await fetch('https://f1-api.vercel.app/api/drivers');
+    const response = await fetch('https://ergast.com/api/f1/2024/driverStandings.json');
     jsonContent = await response.json();
 
-    const drivers = jsonContent.sort().map((driver, index) => {
-      return `<div class="driver-card" id="${driver['last-name']}" style="background:${driver['team-color']}" onclick="moreInfo('${index}')">
+    interface DriverImages {
+      [key: string]: string[];
+    }
+
+    const driverImages: DriverImages = {
+      "max_verstappen": ["https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/M/MAXVER01_Max_Verstappen/maxver01.png"],
+      
+      // {
+      //   "id": "max_verstappen",
+      //   "driver": "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/M/MAXVER01_Max_Verstappen/maxver01.png",
+      //   "flag": ""
+      // },
+      // {
+      //   "id": "leclerc",
+      //   "driver": "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/drivers/2023/chalec01.png.transform/2col/image.png",
+      //   "flag": ""
+      // },
+      // {
+      //   "id": "norris",
+      //   "driver": "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/drivers/2023/lannor01.png.transform/2col/image.png",
+      //   "flag": ""
+      // },
+      // {
+      //   "id": "perez",
+      //   "driver": "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/S/SERPER01_Sergio_Perez/serper01.png",
+      //   "flag": ""
+      // },
+      // {
+      //   "id": "sainz",
+      //   "driver": "https://cdn.racingnews365.com/Riders/Sainz/_570x570_crop_center-center_none/f1_2024_cs_fer_lg.png?v=1708703934",
+      //   "flag": ""
+      // },
+      // {
+      //   "id": "piastri",
+      //   "driver": "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/drivers/2023/oscpia01.png.transform/2col/image.png",
+      //   "flag": ""
+      // },
+      // {
+      //   "id": "hamilton",
+      //   "driver": "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/drivers/2023/lewham01.png.transform/2col/image.png",
+      //   "flag": ""
+      // },
+      // {
+      //   "id": "russell",
+      //   "driver": "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/drivers/2022/georus01.png.transform/2col/image.png",
+      //   "flag": ""
+      // },
+      // {
+      //   "id": "alonso",
+      //   "driver": "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/F/FERALO01_Fernando_Alonso/feralo01.png",
+      //   "flag": ""
+      // },
+      // {
+      //   "id": "stroll",
+      //   "driver": "https://cdn.racingnews365.com/Riders/Stroll/_570x570_crop_center-center_none/f1_2024_ls_ast_lg.png?v=1708704434",
+      //   "flag": ""
+      // },
+      // {
+      //   "id": "tsunoda",
+      //   "driver": "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/Y/YUKTSU01_Yuki_Tsunoda/yuktsu01.png",
+      //   "flag": ""
+      // },
+      // {
+      //   "id": "ricciardo",
+      //   "driver": "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/D/DANRIC01_Daniel_Ricciardo/danric01.png",
+      //   "flag": ""
+      // },
+      // {
+      //   "id": "bearman",
+      //   "driver": "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/O/OLIBEA01_Oliver_Bearman/olibea01.png",
+      //   "flag": ""
+      // },
+      // {
+      //   "id": "ocon",
+      //   "driver": "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/E/ESTOCO01_Esteban_Ocon/estoco01.png",
+      //   "flag": ""
+      // },
+      // {
+      //   "id": "gasly",
+      //   "driver": "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/P/PIEGAS01_Pierre_Gasly/piegas01.png",
+      //   "flag": ""
+      // },
+      // {
+      //   "id": "hulkenberg",
+      //   "driver": "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/N/NICHUL01_Nico_Hulkenberg/nichul01.png",
+      //   "flag": ""
+      // },
+      // {
+      //   "id": "kevin_magnussen",
+      //   "driver": "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/K/KEVMAG01_Kevin_Magnussen/kevmag01.png",
+      //   "flag": ""
+      // },
+      // {
+      //   "id": "albon",
+      //   "driver": "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/A/ALEALB01_Alexander_Albon/alealb01.png",
+      //   "flag": ""
+      // },
+      // {
+      //   "id": "sargeant",
+      //   "driver": "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/L/LOGSAR01_Logan_Sargeant/logsar01.png",
+      //   "flag": ""
+      // },
+      // {
+      //   "id": "zhou",
+      //   "driver": "https://www.formula1.com/fom-website/2018-redesign-assets/Author/guazho-216.png",
+      //   "flag": ""
+      // },
+      // {
+      //   "id": "bottas",
+      //   "driver": "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/V/VALBOT01_Valtteri_Bottas/valbot01.png",
+      //   "flag": ""
+      // },
+    }
+
+    let driverStandings = jsonContent.MRData.StandingsTable.StandingsLists[0].DriverStandings
+
+    console.log(jsonContent.MRData.StandingsTable.StandingsLists[0].DriverStandings)
+
+    // console.log()
+
+    const drivers = driverStandings.sort().map((driver: any, index: number) => {
+      // let driverid = driver['driverId'];
+      return `<div class="driver-card" id="${driver['driverId']}" style="background:#333333" onclick="moreInfo('${index}')">
         <div class="driver-card-inner">
         <div class="img-container">
-        <img src=${driver.image} alt="${driver.name}" class="driver-img" />
+        <img src=${driverImages["max_verstappen"][0]} alt="${driver.Driver.familyName}" class="driver-img" />
         <img src=${driver['country-flag']} alt="flag" class="flag" />
         <img src=${driver['number-logo']} alt="driver number" class="number" />
         </div>
         <div class="details">
-         <p>${driver.name}</p>
-         <p><span>Team</span> <span>${driver.team}</span></p>
-         <p><span>Current rank</span> <span>${driver.rank}</span></p>
+         <p>${driver.Driver.givenName} ${driver.Driver.familyName}</p>
+         <p><span>Team</span> <span>${driver.Constructors[0].name}</span></p>
+         <p><span>Current rank</span> <span>${driver.position}</span></p>
          <p><span>Points</span> <span>${driver.points}</span></p>
          </div>
        </div>
