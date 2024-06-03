@@ -46,12 +46,12 @@ function getDrivers() {
             console.log(jsonContent.MRData.StandingsTable.StandingsLists[0].DriverStandings);
             console.log(driverStandings);
             const drivers = driverStandings.sort().map((driver, index) => {
-                return `<div class="driver-card" id="${driver['driverId']}" style="background:#333333" onclick="moreInfo('${index}')">
+                return `<div class="driver-card" id="${driver.Driver.driverId}" style="background:#333333" onclick="moreInfo('${driver.Driver.driverId}', '${driver.Driver}')">
         <div class="driver-card-inner">
         <div class="img-container">
         <img src=${driverImages[driver.Driver.driverId]} alt="${driver.Driver.familyName}" class="driver-img" />
-        <img src=${driver['country-flag']} alt="flag" class="flag" />
-        <img src=${driver['number-logo']} alt="driver number" class="number" />
+        // <img src=${driver['country-flag']} alt="flag" class="flag" />
+        // <img src=${driver['number-logo']} alt="driver number" class="number" />
         </div>
         <div class="details">
          <p>${driver.Driver.givenName} ${driver.Driver.familyName}</p>
@@ -73,14 +73,15 @@ let driverData;
 let results;
 let wins;
 let constructors;
-function moreInfo(index) {
+function moreInfo(index, driver) {
     loading.style.display = 'block';
     modalcontainer.innerHTML = '';
     modalcontainer.style.display = 'block';
-    const driver = jsonContent[index];
+    // const driver = jsonContent[index]
     let drivername;
-    drivername = jsonContent.MRData.StandingsTable.StandingsLists[0].DriverStandings[index].Driver.driverId;
-    fetch(`https://ergast.com/api/f1/drivers/${drivername}.json`)
+    console.log(driver);
+    // drivername = jsonContent.MRData.StandingsTable.StandingsLists[0].DriverStandings[index].Driver.driverId
+    fetch(`https://ergast.com/api/f1/drivers/${index}.json`)
         .then(function (response) {
         if (response.status !== 200) {
             console.log(response.status);
@@ -88,36 +89,36 @@ function moreInfo(index) {
         }
         response.text().then(function (data) {
             driverData = JSON.parse(data).MRData.DriverTable.Drivers[0];
-            return fetch(`https://ergast.com/api/f1/drivers/${drivername}/constructors.json`);
+            return fetch(`https://ergast.com/api/f1/drivers/${index}/constructors.json`);
         })
             .then(function (response) {
             return response.json();
         })
             .then(function (data) {
             constructors = data.MRData.ConstructorTable.Constructors;
-            return fetch(`https://ergast.com/api/f1/drivers/${drivername}/results/1.json`);
+            return fetch(`https://ergast.com/api/f1/drivers/${index}/results/1.json`);
         })
             .then(function (response) {
             return response.json();
         })
             .then(function (data) {
             wins = data.MRData.total;
-            return fetch(`https://ergast.com/api/f1/drivers/${drivername}/results.json?limit=400`);
+            return fetch(`https://ergast.com/api/f1/drivers/${index}/results.json?limit=400`);
         })
             .then(function (response) {
             return response.json();
         })
             .then(function (data) {
             let allResults = data.MRData.RaceTable.Races;
-            getResults(drivername, driverData, driver, wins, constructors, allResults);
+            getResults(index, driverData, driver, wins, constructors, allResults, index);
         });
     })
         .catch(function (err) {
         console.log('Fetch Error', err);
     });
 }
-function getResults(drivername, driverData, driver, wins, constructors, allResults) {
-    console.log(drivername);
+function getResults(drivername, driverData, driver, wins, constructors, allResults, index) {
+    console.log(index);
     fetch(`https://ergast.com/api/f1/2024/drivers/${drivername}/results.json`)
         .then(function (response) {
         if (response.status !== 200) {
@@ -126,6 +127,7 @@ function getResults(drivername, driverData, driver, wins, constructors, allResul
         }
         response.text().then(function (data) {
             const results2024 = JSON.parse(data).MRData.RaceTable.Races;
+            console.log(data);
             let racesFinished = 0;
             let totalResults = 0;
             let totalStarts = 0;
@@ -153,7 +155,7 @@ function getResults(drivername, driverData, driver, wins, constructors, allResul
             loading.style.display = 'none';
             modalcontainer.style.display = 'block';
             modalcontainer.innerHTML = `
-          <div class="driver-card modal" id="${driver['last-name']}" style="background:${driver['team-color']}">
+          <div class="driver-card modal" id="${driver.name}" style="background:${driver['team-color']}">
           <div class="top-container">
           <div class="img-container">
                 <img src=${driver.image} alt="${driver.name}" class="driver-img" />

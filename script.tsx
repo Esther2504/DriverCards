@@ -68,12 +68,12 @@ async function getDrivers(): Promise<void> {
     console.log(driverStandings)
 
     const drivers = driverStandings.sort().map((driver: any, index: number) => {
-      return `<div class="driver-card" id="${driver['driverId']}" style="background:#333333" onclick="moreInfo('${index}')">
+      return `<div class="driver-card" id="${driver.Driver.driverId}" style="background:#333333" onclick="moreInfo('${driver.Driver.driverId}', '${driver.Driver}')">
         <div class="driver-card-inner">
         <div class="img-container">
         <img src=${driverImages[driver.Driver.driverId]} alt="${driver.Driver.familyName}" class="driver-img" />
-        <img src=${driver['country-flag']} alt="flag" class="flag" />
-        <img src=${driver['number-logo']} alt="driver number" class="number" />
+        // <img src=${driver['country-flag']} alt="flag" class="flag" />
+        // <img src=${driver['number-logo']} alt="driver number" class="number" />
         </div>
         <div class="details">
          <p>${driver.Driver.givenName} ${driver.Driver.familyName}</p>
@@ -97,18 +97,19 @@ let results: Object;
 let wins: Object;
 let constructors: Object;
 
-function moreInfo(index: number) {
+function moreInfo(index: any, driver: any) {
   loading!.style.display = 'block'
   modalcontainer!.innerHTML = ''
   modalcontainer!.style.display = 'block'
-  const driver = jsonContent[index]
+  // const driver = jsonContent[index]
   let drivername: String;
 
+  console.log(driver)
 
-    drivername = jsonContent.MRData.StandingsTable.StandingsLists[0].DriverStandings[index].Driver.driverId
+    // drivername = jsonContent.MRData.StandingsTable.StandingsLists[0].DriverStandings[index].Driver.driverId
   
 
-  fetch(`https://ergast.com/api/f1/drivers/${drivername}.json`)
+  fetch(`https://ergast.com/api/f1/drivers/${index}.json`)
     .then(
       function (response) {
         if (response.status !== 200) {
@@ -117,28 +118,28 @@ function moreInfo(index: number) {
         }
         response.text().then(function (data) {
           driverData = JSON.parse(data).MRData.DriverTable.Drivers[0]
-          return fetch(`https://ergast.com/api/f1/drivers/${drivername}/constructors.json`)
+          return fetch(`https://ergast.com/api/f1/drivers/${index}/constructors.json`)
         })
           .then(function (response) {
             return response.json();
           })
           .then(function (data) {
             constructors = data.MRData.ConstructorTable.Constructors
-            return fetch(`https://ergast.com/api/f1/drivers/${drivername}/results/1.json`)
+            return fetch(`https://ergast.com/api/f1/drivers/${index}/results/1.json`)
           })
           .then(function (response) {
             return response.json();
           })
           .then(function (data) {
             wins = data.MRData.total
-            return fetch(`https://ergast.com/api/f1/drivers/${drivername}/results.json?limit=400`)
+            return fetch(`https://ergast.com/api/f1/drivers/${index}/results.json?limit=400`)
           })
           .then(function (response) {
             return response.json();
           })
           .then(function (data) {
             let allResults = data.MRData.RaceTable.Races
-            getResults(drivername, driverData, driver, wins, constructors, allResults)
+            getResults(index, driverData, driver, wins, constructors, allResults, index)
           })
       }
     )
@@ -147,8 +148,8 @@ function moreInfo(index: number) {
     });
 }
 
-function getResults(drivername: String, driverData: any, driver: any, wins: Object, constructors: any, allResults: any) {
-  console.log(drivername)
+function getResults(drivername: String, driverData: any, driver: any, wins: Object, constructors: any, allResults: any, index: any) {
+  console.log(index)
   fetch(`https://ergast.com/api/f1/2024/drivers/${drivername}/results.json`)
     .then(
       function (response) {
@@ -158,6 +159,8 @@ function getResults(drivername: String, driverData: any, driver: any, wins: Obje
         }
         response.text().then(function (data) {
           const results2024: Results24[] = JSON.parse(data).MRData.RaceTable.Races
+
+          console.log(data)
 
           let racesFinished = 0;
           let totalResults = 0;
@@ -190,7 +193,7 @@ function getResults(drivername: String, driverData: any, driver: any, wins: Obje
           loading!.style.display = 'none'
           modalcontainer!.style.display = 'block';
           modalcontainer!.innerHTML = `
-          <div class="driver-card modal" id="${driver['last-name']}" style="background:${driver['team-color']}">
+          <div class="driver-card modal" id="${driver.name}" style="background:${driver['team-color']}">
           <div class="top-container">
           <div class="img-container">
                 <img src=${driver.image} alt="${driver.name}" class="driver-img" />
