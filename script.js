@@ -116,7 +116,8 @@ function getDrivers() {
             let driverStandings = jsonContent.MRData.StandingsTable.StandingsLists[0].DriverStandings;
             console.log(driverStandings);
             const drivers = driverStandings.sort().map((driver, index) => {
-                return `<div class="driver-card" id="${driver.Driver.driverId}" style="background:${driverData[driver.Driver.driverId].team_color}" onclick="moreInfo('${driver.Driver.driverId}', '${driver}')">
+                const encodedDriver = encodeURIComponent(JSON.stringify(driver));
+                return `<div class="driver-card" id="${driver.Driver.driverId}" style="background:${driverData[driver.Driver.driverId].team_color}" onclick="moreInfo('${driver.Driver.driverId}', '${encodedDriver}')">
         <div class="driver-card-inner">
         <div class="img-container">
         <img src=${driverData[driver.Driver.driverId].images} alt="${driver.Driver.familyName}" class="driver-img" />
@@ -143,13 +144,13 @@ let allDriverData;
 let results;
 let wins;
 let constructors;
-function moreInfo(index, driver) {
+function moreInfo(index, encodedDriver) {
     loading.style.display = 'block';
     modalcontainer.innerHTML = '';
     modalcontainer.style.display = 'block';
     // const driver = jsonContent[index]
     let drivername;
-    console.log(driver.join(''));
+    const driver = JSON.parse(decodeURIComponent(encodedDriver));
     // drivername = jsonContent.MRData.StandingsTable.StandingsLists[0].DriverStandings[index].Driver.driverId
     fetch(`https://ergast.com/api/f1/drivers/${index}.json`)
         .then(function (response) {
@@ -228,7 +229,7 @@ function getResults(drivername, allDriverData, driver, wins, constructors, allRe
           <div class="top-container">
           <div class="img-container">
                 <img src=${driverData[index].images} alt="${index}" class="driver-img" />
-                <img src=${driver['country-flag']} alt="flag" class="flag" />
+                <img src=${driverData[index].flag} alt="flag" class="flag" />
                 <img src=${driver['number-logo']} alt="driver number" class="number" />
                 </div>
                 <div class="details">

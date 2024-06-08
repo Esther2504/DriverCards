@@ -133,7 +133,8 @@ async function getDrivers(): Promise<void> {
     console.log(driverStandings)
 
     const drivers = driverStandings.sort().map((driver: any, index: number) => {
-      return `<div class="driver-card" id="${driver.Driver.driverId}" style="background:${driverData[driver.Driver.driverId].team_color}" onclick="moreInfo('${driver.Driver.driverId}', '${driver}')">
+      const encodedDriver = encodeURIComponent(JSON.stringify(driver));
+      return `<div class="driver-card" id="${driver.Driver.driverId}" style="background:${driverData[driver.Driver.driverId].team_color}" onclick="moreInfo('${driver.Driver.driverId}', '${encodedDriver}')">
         <div class="driver-card-inner">
         <div class="img-container">
         <img src=${driverData[driver.Driver.driverId].images} alt="${driver.Driver.familyName}" class="driver-img" />
@@ -162,14 +163,13 @@ let results: Object;
 let wins: Object;
 let constructors: Object;
 
-function moreInfo(index: any, driver: any) {
+function moreInfo(index: any, encodedDriver: string) {
   loading!.style.display = 'block'
   modalcontainer!.innerHTML = ''
   modalcontainer!.style.display = 'block'
   // const driver = jsonContent[index]
   let drivername: String;
-
-  console.log(driver.join(''))
+  const driver = JSON.parse(decodeURIComponent(encodedDriver));
 
     // drivername = jsonContent.MRData.StandingsTable.StandingsLists[0].DriverStandings[index].Driver.driverId
 
