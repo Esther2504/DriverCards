@@ -24,55 +24,68 @@ const driverData = {
         "driverimage": "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/drivers/2023/chalec01.png.transform/2col/image.png",
         "flag": "https://cdn.countryflags.com/thumbs/monaco/flag-400.png",
     },
-    "norris": { "team_color": "#FF8000",
+    "norris": {
+        "team_color": "#FF8000",
         "driverimage": "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/drivers/2023/lannor01.png.transform/2col/image.png",
         "flag": "https://cdn.countryflags.com/thumbs/united-kingdom/flag-400.png"
     },
-    "perez": { "team_color": "#3671C6",
+    "perez": {
+        "team_color": "#3671C6",
         "driverimage": "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/S/SERPER01_Sergio_Perez/serper01.png",
         "flag": "https://cdn.countryflags.com/thumbs/mexico/flag-400.png"
     },
-    "sainz": { "team_color": "#E8002D",
+    "sainz": {
+        "team_color": "#E8002D",
         "driverimage": "https://cdn.racingnews365.com/Riders/Sainz/_570x570_crop_center-center_none/f1_2024_cs_fer_lg.png?v=1708703934",
         "flag": "https://cdn.countryflags.com/thumbs/spain/flag-400.png"
     },
-    "piastri": { "team_color": "#FF8000",
+    "piastri": {
+        "team_color": "#FF8000",
         "driverimage": "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/o/oscpia01_oscar_piastri/oscpia01.png",
         "flag": "https://cdn.countryflags.com/thumbs/australia/flag-400.png"
     },
-    "russell": { "team_color": "#27F4D2",
+    "russell": {
+        "team_color": "#27F4D2",
         "driverimage": "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/drivers/2022/georus01.png.transform/2col/image.png",
         "flag": "https://cdn.countryflags.com/thumbs/united-kingdom/flag-400.png"
     },
-    "hamilton": { "team_color": "#27F4D2",
+    "hamilton": {
+        "team_color": "#27F4D2",
         "driverimage": "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/drivers/2023/lewham01.png.transform/2col/image.png",
         "flag": "https://cdn.countryflags.com/thumbs/united-kingdom/flag-400.png"
     },
-    "alonso": { "team_color": "#229971",
+    "alonso": {
+        "team_color": "#229971",
         "driverimage": "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/F/FERALO01_Fernando_Alonso/feralo01.png",
         "flag": "https://cdn.countryflags.com/thumbs/spain/flag-400.png"
     },
-    "stroll": { "team_color": "#229971",
+    "stroll": {
+        "team_color": "#229971",
         "driverimage": "https://cdn.racingnews365.com/Riders/Stroll/_570x570_crop_center-center_none/f1_2024_ls_ast_lg.png?v=1708704434",
         "flag": "https://cdn.countryflags.com/thumbs/canada/flag-400.png"
     },
-    "tsunoda": { "team_color": "#6692FF",
+    "tsunoda": {
+        "team_color": "#6692FF",
         "driverimage": "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/Y/YUKTSU01_Yuki_Tsunoda/yuktsu01.png",
         "flag": "https://cdn.countryflags.com/thumbs/japan/flag-400.png"
     },
-    "ricciardo": { "team_color": "#6692FF",
+    "ricciardo": {
+        "team_color": "#6692FF",
         "driverimage": "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/D/DANRIC01_Daniel_Ricciardo/danric01.png",
         "flag": "https://cdn.countryflags.com/thumbs/australia/flag-400.png"
     },
-    "bearman": { "team_color": "#E8002D",
+    "bearman": {
+        "team_color": "#E8002D",
         "driverimage": "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/O/OLIBEA01_Oliver_Bearman/olibea01.png",
         "flag": "https://cdn.countryflags.com/thumbs/united-kingdom/flag-400.png"
     },
-    "ocon": { "team_color": "#FF87BC",
+    "ocon": {
+        "team_color": "#FF87BC",
         "driverimage": "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/E/ESTOCO01_Esteban_Ocon/estoco01.png",
         "flag": "https://cdn.countryflags.com/thumbs/france/flag-400.png"
     },
-    "gasly": { "team_color": "#FF87BC",
+    "gasly": {
+        "team_color": "#FF87BC",
         "driverimage": "https://media.formula1.com/d_driver_fallback_image.png/content/dam/fom-website/drivers/P/PIEGAS01_Pierre_Gasly/piegas01.png",
         "flag": "https://cdn.countryflags.com/thumbs/france/flag-400.png"
     },
@@ -227,7 +240,7 @@ function getResults(drivername, allDriverData, driver, wins, constructors, allRe
                 </div>
                 <div class="details">
                  <p>${driver.Driver.givenName} ${driver.Driver.familyName}</p>
-                 <p><span>Birthdate</span>${driver.Driver.dateOfBirth}</p>
+                 <p><span>Birthdate</span>${new Date(driver.Driver.dateOfBirth).getDate()}/${new Date(driver.Driver.dateOfBirth).getMonth()}/${new Date(driver.Driver.dateOfBirth).getFullYear()}</p>
                  <p><span>Nationality</span>${driver.Driver.nationality}</p>
                  <p><span>Number</span>${driver.Driver.permanentNumber}</p>
                  <p><span>Team</span> <span>${driver.Constructors[0].name}</span></p>
@@ -242,12 +255,14 @@ function getResults(drivername, allDriverData, driver, wins, constructors, allRe
                 return `<p><span>${race.raceName}</span><span>${race.Results[0].positionText}</span></p>`;
             }).join('')}
                 </div>
-                <div class='right-container'>
+                <div class="right-container">
                 <div class="constructors">
                 <p>Teams</p>
+                <div class="teams">
                 ${constructors.map((constructor) => {
                 return `<p>${constructor.name}</p>`;
             }).join('')}
+          </div>
                 </div>
                 <div class="career-details">
                 <p><span>Career wins</span><span>${wins}</span></p>
