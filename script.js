@@ -22,7 +22,7 @@ const driverData = {
     "leclerc": {
         "team_color": "#E8002D",
         "images": "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/drivers/2023/chalec01.png.transform/2col/image.png",
-        "flag": "https://cdn.countryflags.com/thumbs/monaco/flag-400.png"
+        "flag": "https://cdn.countryflags.com/thumbs/monaco/flag-400.png",
     },
     "norris": { "team_color": "#FF8000",
         "images": "https://media.formula1.com/content/dam/fom-website/2018-redesign-assets/drivers/2023/lannor01.png.transform/2col/image.png",
@@ -122,7 +122,6 @@ function getDrivers() {
         <div class="img-container">
         <img src=${driverData[driver.Driver.driverId].images} alt="${driver.Driver.familyName}" class="driver-img" />
         <img src=${driverData[driver.Driver.driverId].flag} alt="flag" class="flag" />
-        <img src=${driver['number-logo']} alt="driver number" class="number" />
         </div>
         <div class="details">
          <p>${driver.Driver.givenName} ${driver.Driver.familyName}</p>
@@ -230,7 +229,6 @@ function getResults(drivername, allDriverData, driver, wins, constructors, allRe
           <div class="img-container">
                 <img src=${driverData[index].images} alt="${index}" class="driver-img" />
                 <img src=${driverData[index].flag} alt="flag" class="flag" />
-                <img src=${driver['number-logo']} alt="driver number" class="number" />
                 </div>
                 <div class="details">
                  <p>${driver.Driver.givenName} ${driver.Driver.familyName}</p>
